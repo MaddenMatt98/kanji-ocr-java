@@ -26,7 +26,9 @@ public class KanjiController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<ParsedTextDto> parseTextFromImage(@RequestParam("file") MultipartFile inputImage) throws IOException {
-        List<ParsedTextDto> parsedTextInImage = ocrService.getTextInImage(inputImage);
+        String s3ObjectKey = ocrService.uploadImagetoS3(inputImage);
+        List<ParsedTextDto> parsedTextInImage = ocrService.getTextInImage(s3ObjectKey);
+
         return parsedTextInImage;
     }
 

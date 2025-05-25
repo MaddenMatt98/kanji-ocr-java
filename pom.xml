@@ -70,6 +70,15 @@
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>rekognition</artifactId>
         </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3-transfer-manager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk.crt</groupId>
+            <artifactId>aws-crt</artifactId>
+            <version>0.38.3</version>
+        </dependency>
     </dependencies>
 
     <build>

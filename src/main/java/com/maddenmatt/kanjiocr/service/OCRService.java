@@ -8,5 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.maddenmatt.kanjiocr.dto.ParsedTextDto;
 
 public interface OCRService {
-    List<ParsedTextDto> getTextInImage(MultipartFile image) throws IOException;
+
+    String uploadImagetoS3(MultipartFile image) throws IOException;
+    List<ParsedTextDto> getTextInImage(String s3ObjectKey);
+
 }
