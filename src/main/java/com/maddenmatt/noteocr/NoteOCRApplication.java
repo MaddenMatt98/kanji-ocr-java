@@ -1,13 +1,13 @@
-package com.maddenmatt.kanjiocr;
+package com.maddenmatt.noteocr;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KanjiOCRApplication {
+public class NoteOCRApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KanjiOCRApplication.class, args);
+		SpringApplication.run(NoteOCRApplication.class, args);
 	}
 
 }

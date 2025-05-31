@@ -1,4 +1,4 @@
-package com.maddenmatt.kanjiocr.service;
+package com.maddenmatt.noteocr.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.maddenmatt.kanjiocr.dto.ParsedTextDto;
+import com.maddenmatt.noteocr.dto.ParsedTextDto;
 
 import software.amazon.awssdk.services.rekognition.RekognitionClient;
 import software.amazon.awssdk.services.rekognition.model.DetectTextRequest;
@@ -22,7 +22,7 @@ import software.amazon.awssdk.transfer.s3.model.FileUpload;
 import software.amazon.awssdk.transfer.s3.model.UploadFileRequest;
 
 @Service
-public class OCRServiceImpl implements OCRService {
+public class ImageServiceImpl implements ImageService {
 
     @Value("${s3.bucket.name}")
     public String s3BucketName;
@@ -41,7 +41,7 @@ public class OCRServiceImpl implements OCRService {
             high volume app it would be advisable to include a random base 62 string to
             reduce chances of collision.
         */
-        String s3ObjectKey = "%s-%s".formatted(Long.toString(Instant.now().toEpochMilli()), image.getName());
+        String s3ObjectKey = "%s-%s".formatted(Long.toString(Instant.now().toEpochMilli()), image.getOriginalFilename());
 
         File temporaryFile = File.createTempFile("temporary", s3ObjectKey);
         temporaryFile.deleteOnExit();

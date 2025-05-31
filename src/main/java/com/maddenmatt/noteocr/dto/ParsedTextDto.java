@@ -1,4 +1,4 @@
-package com.maddenmatt.kanjiocr.dto;
+package com.maddenmatt.noteocr.dto;
 
 import java.util.Objects;
 

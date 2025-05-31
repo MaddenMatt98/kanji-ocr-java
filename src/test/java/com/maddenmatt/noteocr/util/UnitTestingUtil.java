@@ -1,4 +1,4 @@
-package com.maddenmatt.kanjiocr.util;
+package com.maddenmatt.noteocr.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,7 +10,7 @@ public class UnitTestingUtil {
 
     public static MultipartFile getMockMultipartFile() throws IOException {
         FileInputStream testImageStream = new FileInputStream("src/test/resources/PXL_20250120_043330496.jpg");
-        MultipartFile multipartFile = new MockMultipartFile("PXL_20250120_043330496.jpg", "src/test/resources/PXL_20250120_043330496.jpg", "image/png", testImageStream.readAllBytes());
+        MultipartFile multipartFile = new MockMultipartFile("PXL_20250120_043330496.jpg", "PXL_20250120_043330496.jpg", "image/png", testImageStream.readAllBytes());
         return multipartFile;
     }
 

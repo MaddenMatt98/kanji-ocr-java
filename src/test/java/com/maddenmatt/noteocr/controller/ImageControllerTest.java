@@ -1,4 +1,4 @@
-package com.maddenmatt.kanjiocr.controller;
+package com.maddenmatt.noteocr.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,28 +19,28 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.maddenmatt.kanjiocr.dto.ParsedTextDto;
-import com.maddenmatt.kanjiocr.service.OCRService;
-import com.maddenmatt.kanjiocr.util.UnitTestingUtil;
+import com.maddenmatt.noteocr.util.UnitTestingUtil;
+import com.maddenmatt.noteocr.dto.ParsedTextDto;
+import com.maddenmatt.noteocr.service.ImageService;
 
 @ExtendWith(SpringExtension.class)
-public class KanjiControllerTest {
+public class ImageControllerTest {
 
     @TestConfiguration
-    static class KanjiControllerTestContextConfiguration {
+    static class ImageControllerTestContextConfiguration {
 
         @Bean
-        public KanjiController createKanjiController() {
-            return new KanjiController();
+        public ImageController createimageController() {
+            return new ImageController();
         }
 
     }
 
     @Autowired
-    private KanjiController kanjiController;
+    private ImageController imageController;
 
     @MockitoBean
-    private OCRService ocrService;
+    private ImageService ocrService;
 
     @Test
     public void whenParseTextFromImageIsSuccessful_thenParsedTextDtoListIsReturned() {
@@ -53,7 +53,7 @@ public class KanjiControllerTest {
             List<ParsedTextDto> expectedResult = Arrays.asList(new ParsedTextDto("日本", Float.parseFloat("99.9"), testS3ObjectKey));
             when(ocrService.getTextInImage(testS3ObjectKey)).thenReturn(expectedResult);
 
-            List<ParsedTextDto> result = kanjiController.parseTextFromImage(testMultipartFile);
+            List<ParsedTextDto> result = imageController.parseTextFromImage(testMultipartFile);
 
             assertEquals(expectedResult, result, "Expected parsed text DTO does not match actual DTO!");
             verify(ocrService, times(1)).uploadImagetoS3(testMultipartFile);
@@ -74,7 +74,7 @@ public class KanjiControllerTest {
             List<ParsedTextDto> expectedResult = new ArrayList<>();
             when(ocrService.getTextInImage(testS3ObjectKey)).thenReturn(expectedResult);
 
-            List<ParsedTextDto> result = kanjiController.parseTextFromImage(testMultipartFile);
+            List<ParsedTextDto> result = imageController.parseTextFromImage(testMultipartFile);
 
             assertEquals(expectedResult, result, "Expected parsed text DTO does not match actual DTO!");
             verify(ocrService, times(1)).uploadImagetoS3(testMultipartFile);

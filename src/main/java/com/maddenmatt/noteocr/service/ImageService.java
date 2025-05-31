@@ -1,13 +1,13 @@
-package com.maddenmatt.kanjiocr.service;
+package com.maddenmatt.noteocr.service;
 
 import java.io.IOException;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.maddenmatt.kanjiocr.dto.ParsedTextDto;
+import com.maddenmatt.noteocr.dto.ParsedTextDto;
 
-public interface OCRService {
+public interface ImageService {
 
     String uploadImagetoS3(MultipartFile image) throws IOException;
     List<ParsedTextDto> getTextInImage(String s3ObjectKey);

@@ -1,4 +1,4 @@
-package com.maddenmatt.kanjiocr.controller.advice;
+package com.maddenmatt.noteocr.controller.advice;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;

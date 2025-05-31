@@ -1,4 +1,4 @@
-package com.maddenmatt.kanjiocr.service;
+package com.maddenmatt.noteocr.service;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,8 +22,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.maddenmatt.kanjiocr.dto.ParsedTextDto;
-import com.maddenmatt.kanjiocr.util.UnitTestingUtil;
+import com.maddenmatt.noteocr.dto.ParsedTextDto;
+import com.maddenmatt.noteocr.util.UnitTestingUtil;
 
 import software.amazon.awssdk.services.rekognition.RekognitionClient;
 import software.amazon.awssdk.services.rekognition.model.DetectTextRequest;
@@ -36,20 +36,20 @@ import software.amazon.awssdk.transfer.s3.model.FileUpload;
 import software.amazon.awssdk.transfer.s3.model.UploadFileRequest;
 
 @ExtendWith(SpringExtension.class)
-public class OCRServiceImplTest {
+public class ImageServiceImplTest {
 
     @TestConfiguration
-    static class OCRServiceImplTestContextConfiguration {
+    static class ImageServiceImplTestContextConfiguration {
 
         @Bean
-        public OCRService createOCRService() {
-            return new OCRServiceImpl();
+        public ImageService createImageService() {
+            return new ImageServiceImpl();
         }
 
     }
 
     @Autowired
-    private OCRService ocrService;
+    private ImageService imageService;
 
     @Value("${s3.bucket.name}")
     private String s3BucketName;
@@ -69,7 +69,7 @@ public class OCRServiceImplTest {
             when(mockFileUpload.completionFuture()).thenReturn(CompletableFuture.completedFuture(mock(CompletedFileUpload.class)));
             when(s3TransferManager.uploadFile(any(UploadFileRequest.class))).thenReturn(mockFileUpload);
 
-            String s3ObjectKey = ocrService.uploadImagetoS3(testMultipartFile);
+            String s3ObjectKey = imageService.uploadImagetoS3(testMultipartFile);
 
             assertTrue(s3ObjectKey.contains("PXL_20250120_043330496.jpg"), "Returned s3ObjectKey does not contain original file name!");
             verify(s3TransferManager, times(1)).uploadFile(any(UploadFileRequest.class));
@@ -95,7 +95,7 @@ public class OCRServiceImplTest {
                                                                       .build();
         when(rekogntitionClient.detectText(detectTextRequest)).thenReturn(testDetectTextResponse);
 
-        List<ParsedTextDto> result = ocrService.getTextInImage(testS3ObjectKey);
+        List<ParsedTextDto> result = imageService.getTextInImage(testS3ObjectKey);
 
         assertTrue(result.size() == 1, "Expected one text detection, %s returned.".formatted(String.valueOf(result.size())));
         assertEquals("日本", result.get(0).getDetectedText(), "Expected detected text to be \"日本\", but %s was returned.".formatted(result.get(0).getDetectedText()));
@@ -118,7 +118,7 @@ public class OCRServiceImplTest {
                                                                       .build();
         when(rekogntitionClient.detectText(detectTextRequest)).thenReturn(testDetectTextResponse);
 
-        List<ParsedTextDto> result = ocrService.getTextInImage(testS3ObjectKey);
+        List<ParsedTextDto> result = imageService.getTextInImage(testS3ObjectKey);
 
         assertTrue(result.isEmpty(), "Expected no text detections, %s returned.".formatted(String.valueOf(result.size())));
         verify(rekogntitionClient, times(1)).detectText(detectTextRequest);
